@@ -5,9 +5,16 @@ metadata:
   labels:
     name: mysql
 spec:
+  volumes:
+    - name: myvol
+      persistentVolumeClaim:
+        claimName: mysql-pvc  # persistentvolumeclaim.metadata.name
   containers:
   - name: mysql-container
     image: mysql
+    volumeMounts:
+      - name: myvol  # spec.volumes.name
+        mountPath: /var/lib/mysql
     resources:
       limits:
         memory: "1024Mi"
@@ -42,3 +49,42 @@ type: Opaque
 stringData:
   password: secretpass
 
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: hostpath
+  hostPath:
+  # local:
+    path: /run/desktop/mnt/host/wsl/mysql-data  # pad in wsl: /mnt/wsl/mysql-data (moet eerst aangemaakt worden)
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname  # verwijst naar een van de labels voor de node (kubectl describe node docker-desktop)
+          operator: In
+          values:
+          - docker-desktop  # de node waaronder kubernetes draait. In dit geval met docker desktop op windows
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+spec:
+  # storageClassName: hostpath # dit is de default
+  storageClassName: hostpath
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
