@@ -16,6 +16,9 @@ spec:
       - name: myvol  # spec.volumes.name
         mountPath: /var/lib/mysql
     resources:
+      requests:
+        memory: "512Mi"
+        cpu: "1024m"
       limits:
         memory: "1024Mi"
         cpu: "2048m"
