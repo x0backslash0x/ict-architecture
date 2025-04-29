@@ -64,7 +64,11 @@ spec:
   storageClassName: hostpath
   hostPath:
   # local:
-    path: /run/desktop/mnt/host/wsl/mysql-data  # pad in wsl: /mnt/wsl/mysql-data (moet eerst aangemaakt worden)
+    path: /run/desktop/mnt/host/wsl/mysql-data  # ~~pad in wsl: /mnt/wsl/mysql-data (moet eerst aangemaakt worden)~~
+    ## correctie:
+    ##  /run/desktop/mnt/host/wsl/mysql-data (docker-desktop)
+    ##  verwijst naar /mnt/host/wsl/mysql-data (wsl)
+    ##  en dus niet naar /mnt/wsl/mysql-data (wsl)
   nodeAffinity:
     required:
       nodeSelectorTerms:
