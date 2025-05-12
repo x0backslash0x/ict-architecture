@@ -13,6 +13,9 @@ Repository voor labo oefeningen bij OLOD ICT Architecture
 * kubectl delete deployment authd
 * kubectl logs deployments/authd
 * kubectl exec -it authd-d84d979fb-8bf5f -- bash
+* apt update
+* apt upgrade -y
+* apt install -y curl
 * curl -X POST -u vincent.nys@ap.be:Admin123 localhost:5000/login
 
 
