@@ -27,7 +27,7 @@ Repository voor labo oefeningen bij OLOD ICT Architecture
 * apt upgrade -y
 * apt install -y curl
 * curl -X POST -u vincent.nys@ap.be:Admin123 localhost:5000/login
-* curl -X POST -H "Authorization: Bearer <token>" --verbose
+* curl -X POST -H "Authorization: Bearer <token>" localhost:5000/validate --verbose
 
 Running on http://127.0.0.1:5000
 Running on http://10.1.0.220:5000
