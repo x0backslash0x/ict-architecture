@@ -1,7 +1,7 @@
 Repository voor labo oefeningen bij OLOD ICT Architecture
 
 # Labo 9
-# setup
+## setup
 * docker image builden
 * docker image opladen naar docker hub
 * manifest voor deployment maken
@@ -31,3 +31,34 @@ Repository voor labo oefeningen bij OLOD ICT Architecture
 
 Running on http://127.0.0.1:5000
 Running on http://10.1.0.220:5000
+
+# Labo 10
+https://kubernetes.io/docs/concepts/services-networking/ingress/
+https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
+[helm docs](https://helm.sh/docs/intro/install/)
+
+## Setup
+**helm lokaal installeren**
+* [windows binary](https://get.helm.sh/helm-v3.18.0-rc.2-windows-amd64.zip) downloaden
+* uitpakken in ProgramFiles
+* verwijzing in system path zetten (System Properties > Advanced > Environment Variables > System variables > Path)
+
+**ingress controller installeren**
+```
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+
+helm install ingress-nginx ingress-nginx/ingress-nginx \
+  --create-namespace \
+  --namespace ingress-nginx
+```
+
+**docker image voorzien**
+```
+docker build -t x0backslash0x/gateway .
+docker push x0backslash0x/gateway
+```
+
+**host verwijzing toevoegen**
+c:\windows\system32\drivers\etc\hosts
+127.0.0.1 mp3convertor.com
