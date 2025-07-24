@@ -1,14 +1,16 @@
 # RabbitMQ tutorials
-[tutorial 1: Hello World](https://www.rabbitmq.com/tutorials/tutorial-one-python)
-[tutorial 2: Work queues](https://www.rabbitmq.com/tutorials/tutorial-two-python) 
+[tutorial 1: Hello World](https://www.rabbitmq.com/tutorials/tutorial-one-python)<br>
+[tutorial 2: Work queues](https://www.rabbitmq.com/tutorials/tutorial-two-python)<br>
 
 ## Info
-Message acknowledgement is on by default (auto_ack)
-Message durability: queue will survive a RabbitMQ node restart
+Message acknowledgement is on by default (auto_ack)<br>
+Message durability: queue will survive a RabbitMQ node restart 
 ```
 durable=True
 delivery_mode = pika.DeliveryMode.Persistent
 ```
+Fair dispatch - workers will not load an additional task while another is still being processed<br>
+channel.basic_qos(prefetch_count=1)
 
 ## dependencies
 docker
@@ -20,7 +22,10 @@ start RabbitMQ server as container
 ```docker run -d -p 5672:5672 --hostname my-rabbit --name some-rabbit rabbitmq:4```
 
 manage RabbitMQ server
-```
-    docker exec -it some-rabbit bash
-	rabbitmqctl list_queues
-```
+```docker exec -it some-rabbit bash```<br>
+**list queues**<br>
+rabbitmqctl list_queues
+
+**debug message acknowledgements**<br>
+rabbitmqctl list_queues name messages_ready messages_unacknowledged
+
