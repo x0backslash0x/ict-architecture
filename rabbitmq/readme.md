@@ -1,5 +1,14 @@
 # RabbitMQ tutorials
-[tutorial: Hello World](https://www.rabbitmq.com/tutorials/tutorial-one-python)
+[tutorial 1: Hello World](https://www.rabbitmq.com/tutorials/tutorial-one-python)
+[tutorial 2: Work queues](https://www.rabbitmq.com/tutorials/tutorial-two-python) 
+
+## Info
+Message acknowledgement is on by default (auto_ack)
+Message durability: queue will survive a RabbitMQ node restart
+```
+durable=True
+delivery_mode = pika.DeliveryMode.Persistent
+```
 
 ## dependencies
 docker
