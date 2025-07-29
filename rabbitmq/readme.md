@@ -1,6 +1,7 @@
 # RabbitMQ tutorials
 [tutorial 1: Hello World](https://www.rabbitmq.com/tutorials/tutorial-one-python)<br>
 [tutorial 2: Work queues](https://www.rabbitmq.com/tutorials/tutorial-two-python)<br>
+[tutorial 3: Publish/Subscribe](https://www.rabbitmq.com/tutorials/tutorial-three-python)
 
 ## Info
 Message acknowledgement is on by default (auto_ack)<br>
@@ -23,9 +24,10 @@ start RabbitMQ server as container
 
 manage RabbitMQ server
 ```docker exec -it some-rabbit bash```<br>
-**list queues**<br>
-rabbitmqctl list_queues
 
-**debug message acknowledgements**<br>
-rabbitmqctl list_queues name messages_ready messages_unacknowledged
+**RabbitMQ management commands**
+| list queues | rabbitmqctl list queues |
+| debug messagte acknowledgements | rabbitmqctl list_queues name messages_ready messages_unacknowledged |
+| list exchanges | rabbitmqctl list_exchanges |
+| list bindings | rabbitmqctl list bindings |
 
