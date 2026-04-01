@@ -53,6 +53,24 @@ public class EvalVisitor : ExprParserBaseVisitor<BerekendeCel>
             }
             return new BerekendeCel(totaal.ToString(), CelType.INT);
         }
+        else if (functieNaam.GetText() == "concat")
+        {
+            string totaal = "";
+            for (int i = 0; i < resultatenKinderen.Count; i++)
+            {
+                var expressieKind = expressiesKinderen[i];
+                var resultaatKind = resultatenKinderen[i];
+                if (resultaatKind.CelType != CelType.STRING)
+                {
+                    return new BerekendeCel($"Fout: resultaat voor {expressieKind} in {context.GetText()} is geen string.", CelType.ERROR);
+                }
+                else
+                {
+                    totaal += resultaatKind.VoorstellingWaarde;
+                }
+            }
+            return new BerekendeCel(totaal.ToString(), CelType.STRING);
+        }
         return new BerekendeCel($"Kan {context.GetText()} niet uitrekenen!", CelType.ERROR);
     }
 
