@@ -1,4 +1,8 @@
 services:
+  gateway:
+    build: gateway
+    ports:
+      - "3003:3000"
   customers:
     build: customers
     command: bash -c "sleep 30 && node index.js"
