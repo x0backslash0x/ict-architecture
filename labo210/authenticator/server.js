@@ -7,12 +7,18 @@ const home = `http://${hostname}:${port}`
 app.get('/', (req, res) => {
   const authURL = "https://github.com/login/oauth/authorize";
   const client_id = "Ov23liJaiLGqKAM0XaTC"
-  const redirect_url = `${authURL}?client_id=${client_id}&redirect_url=${home}`
+  const scope = 'user%20public_repo%20openid'
+  const redirect_url = `${authURL}?client_id=${client_id}&scope=${scope}`
   console.log("redirecting to " + redirect_url)
-  res.redirect(redirect_url); // BUG: moet een andere route zijn, zit nu in een loop
+  res.redirect(redirect_url);
 });
 
-// in een andere route (callback) de code uit het response object tonen op de pagina
+app.get('/callback', (req, res) => {
+  console.log("terug van Github")
+  // info die Github meegeeft tonen, zoals in video
+  console.log(res)
+  res.status(200).send("callback ok\n," + res);
+});
 
 app.listen(port, hostname, () => {
   console.log(`server listening on ${home}`);
