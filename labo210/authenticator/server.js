@@ -44,8 +44,17 @@ app.get('/callback', async (req, res) => {
   console.log(tokenData)
   console.log(`access_token: ${accessToken}`)
 
+  // gegevens over gebruiker opvragen (dmv access_token) //
+  const userDataRequest = await fetch('https://api.github.com/user', {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+    }
+  });
+  const userData = await userDataRequest.json();
+  console.log(userData)
+
   // antwoord terug sturen
-  res.status(200).send(tokenData);
+  res.status(200).send(userData);
 });
 
 app.listen(port, hostname, () => {
