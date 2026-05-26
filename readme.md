@@ -7,9 +7,9 @@ Repository voor labo oefeningen bij OLOD ICT Architecture
 | customers | localhost:3000/get_customer_data_by_email?email=\<email\> |
 | orders | localhost:3001/get_order_data |
 | products | localhost:3002/get_product/data |
-| gateway/customers | localhost:3003/customers |
-| gateway/orders | localhost:3003/orders |
-| gateway/products | localhost:3003/products |
+| gateway/customers | localhost:3003/customers?secret=\<secret\> |
+| gateway/orders | localhost:3003/orders?secret=\<secret\> |
+| gateway/products | localhost:3003/products?secret=\<secret\> |
 
 **omgeving klaar zetten**
 ```bash
@@ -19,7 +19,7 @@ docker compose up
 
 **services aanroepen**
 ```bash
-curl localhost:3003/customers
-curl localhost:3003/orders
-curl localhost:3003/products
+curl localhost:3003/customers?secret=<secret>
+curl localhost:3003/orders?secret=<secret>
+curl localhost:3003/products?secret=<secret>
 ```
