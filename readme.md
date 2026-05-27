@@ -23,3 +23,4 @@ curl localhost:3003/customers?secret=<secret>
 curl localhost:3003/orders?secret=<secret>
 curl localhost:3003/products?secret=<secret>
 ```
+*Wanneer er een internal server error verschijnt, kan het zijn dat de services not niet beschikbaar zijn. Alle services moeten eerst volledig aktief zijn*
