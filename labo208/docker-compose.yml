@@ -19,7 +19,7 @@ services:
     ports:
       - "3002:3000"
   db:
-    image: mysql
+    image: mysql:8.0
     # in productie gebruik je secrets!
     environment:
       MYSQL_ROOT_PASSWORD: "my-super-secret"
