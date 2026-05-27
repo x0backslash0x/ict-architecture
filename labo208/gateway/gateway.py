@@ -6,9 +6,14 @@ app = FastAPI()
 
 VALID_SECRETS =  {"plankton", "chair", "bycicle"}
 
+def is_valid_secret(secret: str) -> bool:
+    if secret in VALID_SECRETS:
+        return True
+    return False
+
 @app.get("/customers")
 def get_customers(secret: str):
-    if not secret in VALID_SECRETS:
+    if not is_valid_secret(secret):
         return "secret required"
     response = httpx.get("http://customers:3000/get_customer_data_by_email", params={'email': 'rsands0@dell.com'})
     return response.json()
@@ -17,7 +22,7 @@ def get_customers(secret: str):
 
 @app.get("/orders")
 def get_orders(secret: str):
-    if not secret in VALID_SECRETS:
+    if not is_valid_secret(secret):
         return "secret required"
     response = httpx.get("http://orders:3000/get_order_data")
     return response.json()
@@ -26,7 +31,7 @@ def get_orders(secret: str):
 
 @app.get("/products")
 def get_products(secret: str):
-    if not secret in VALID_SECRETS:
+    if not is_valid_secret(secret):
         return "secret required"
     response = httpx.get("http://products:3000/get_product_data")
     return response.json()
