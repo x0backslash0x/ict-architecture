@@ -1,8 +1,4 @@
 services:
-  gateway:
-    build: gateway
-    ports:
-      - "3003:8000"
   customers:
     build: customers
     command: bash -c "sleep 30 && node index.js"
@@ -19,7 +15,7 @@ services:
     ports:
       - "3002:3000"
   db:
-    image: mysql:8.0
+    image: mysql
     # in productie gebruik je secrets!
     environment:
       MYSQL_ROOT_PASSWORD: "my-super-secret"

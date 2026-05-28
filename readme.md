@@ -14,7 +14,9 @@ Repository voor labo oefeningen bij OLOD ICT Architecture
 **omgeving klaar zetten**
 ```bash
 docker compose build
-docker compose up
+docker compose up -d
+docker build -t gateway ./gateway
+docker run --rm -d --name gateway -p 3003:8000 --network labo208_default gateway
 ```
 
 **services aanroepen**
