@@ -23,4 +23,8 @@ services:
     # wel opstartscripts
     volumes:
       - ./opstartscripts/:/docker-entrypoint-initdb.d/
+  gateway:
+    build: gateway
+    ports:
+      - "3003:8000"
   # hier kan je voor latere vraag RabbitMQ toevoegen
