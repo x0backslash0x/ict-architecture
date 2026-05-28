@@ -5,16 +5,15 @@ import time
 
 app = FastAPI()
 
-VALID_SECRETS =  {"plankton", "chair", "bycicle"}
 VALID_SECRETS =  {"plankton": None, "chair": None, "bycicle": None}
 RATES = {"plankton": 0, "chair": 0, "bycicle": 0}  # aantal x per minuut gebruikt
 RATE_LIMIT = 2
 WINDOW_SECONDS = 60
 
+
 def is_valid_secret(secret: str) -> bool:
-    if secret in VALID_SECRETS:
-        return True
-    return False
+    return secret in VALID_SECRETS
+
 
 def update_rate(secret: str):
     now = time.time()
@@ -28,8 +27,10 @@ def update_rate(secret: str):
         RATES[secret] = 1
         VALID_SECRETS[secret] = now
 
+
 def hits_rate_limit(secret: str) -> bool:
     return RATES[secret] > RATE_LIMIT
+
 
 @app.get("/customers")
 def get_customers(secret: str):
@@ -37,12 +38,13 @@ def get_customers(secret: str):
         return "secret required"
     else:        
         update_rate(secret)
+
     if hits_rate_limit(secret):
         return "rate limit exceeded"
-    response = httpx.get("http://customers:3000/get_customer_data_by_email", params={'email': 'rsands0@dell.com'})
-    return response.json()
-    customer_data = "customer data"
-    return customer_data
+    else:
+        response = httpx.get("http://customers:3000/get_customer_data_by_email", params={'email': 'rsands0@dell.com'})
+        return response.json()
+
 
 @app.get("/orders")
 def get_orders(secret: str):
@@ -50,12 +52,13 @@ def get_orders(secret: str):
         return "secret required"
     else:
         update_rate(secret)
+
     if hits_rate_limit(secret):
         return "rate limit exceeded"
-    response = httpx.get("http://orders:3000/get_order_data")
-    return response.json()
-    order_data = "order data"
-    return order_data
+    else:
+        response = httpx.get("http://orders:3000/get_order_data")
+        return response.json()
+
 
 @app.get("/products")
 def get_products(secret: str):
@@ -63,9 +66,9 @@ def get_products(secret: str):
         return "secret required"
     else:
         update_rate(secret)
+
     if hits_rate_limit(secret):
         return "rate limit exceeded"
-    response = httpx.get("http://products:3000/get_product_data")
-    return response.json()
-    product_data = "product data"
-    return product_data
+    else:
+        response = httpx.get("http://products:3000/get_product_data")
+        return response.json()
