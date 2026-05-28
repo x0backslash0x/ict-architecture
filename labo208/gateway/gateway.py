@@ -33,7 +33,7 @@ def hits_rate_limit(secret: str) -> bool:
 
 
 @app.get("/customers")
-def get_customers(secret: str):
+def get_customers(email: str, secret: str):
     if not is_valid_secret(secret):
         return "secret required"
     else:        
@@ -42,7 +42,7 @@ def get_customers(secret: str):
     if hits_rate_limit(secret):
         return "rate limit exceeded"
     else:
-        response = httpx.get("http://customers:3000/get_customer_data_by_email", params={'email': 'rsands0@dell.com'})
+        response = httpx.get("http://customers:3000/get_customer_data_by_email", params={'email': email})
         return response.json()
 
 
