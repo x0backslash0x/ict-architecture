@@ -32,8 +32,13 @@ def hits_rate_limit(secret: str) -> bool:
     return RATES[secret] > RATE_LIMIT
 
 def retrieve_customer_data(email: str, secret: str) -> dict:
-    #response = httpx.get("http://localhost:3000/get_customer_data_by_email", params={'email': email})
-    response = httpx.get("http://customers:3000/get_customer_data_by_email", params={'email': email})
+    response = httpx.get("http://localhost:3000/get_customer_data_by_email", params={'email': email})
+    #response = httpx.get("http://customers:3000/get_customer_data_by_email", params={'email': email})
+    return response.json()
+
+def retrieve_order_data(secret: str) -> dict:
+    response = httpx.get("http://localhost:3001/get_order_data")
+    #response = httpx.get("http://orders:3000/get_order_data")
     return response.json()
 
 @app.get("/customers")
@@ -48,9 +53,14 @@ def get_customers(email: str, secret: str):
     else:
         customer_data = retrieve_customer_data(email, secret)
         customer_name = customer_data.get("first_name")
+        orders_data = retrieve_order_data(secret)
+        orders = []
+        for order in orders_data:
+            if order.get('customer_id') == customer_data.get('id'):
+                orders.append(order)
         customer_summary = {
             "customer": customer_name,
-            "orders": "none",
+            "orders": orders,
         }
         return customer_summary
 
