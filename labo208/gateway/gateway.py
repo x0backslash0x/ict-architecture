@@ -42,6 +42,7 @@ def get_customers(email: str, secret: str):
     if hits_rate_limit(secret):
         return "rate limit exceeded"
     else:
+        #response = httpx.get("http://localhost:3000/get_customer_data_by_email", params={'email': email})
         response = httpx.get("http://customers:3000/get_customer_data_by_email", params={'email': email})
         return response.json()
 
@@ -56,6 +57,7 @@ def get_orders(secret: str):
     if hits_rate_limit(secret):
         return "rate limit exceeded"
     else:
+        #response = httpx.get("http://localhost:3001/get_order_data")
         response = httpx.get("http://orders:3000/get_order_data")
         return response.json()
 
@@ -70,5 +72,6 @@ def get_products(secret: str):
     if hits_rate_limit(secret):
         return "rate limit exceeded"
     else:
+        #response = httpx.get("http://localhost:3002/get_product_data")
         response = httpx.get("http://products:3000/get_product_data")
         return response.json()
