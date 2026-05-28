@@ -42,12 +42,18 @@ def get_customers(email: str, secret: str):
     if hits_rate_limit(secret):
         return "rate limit exceeded"
     else:
-        #response = httpx.get("http://localhost:3000/get_customer_data_by_email", params={'email': email})
-        response = httpx.get("http://customers:3000/get_customer_data_by_email", params={'email': email})
-        return response.json()
+        #customer_data_response = httpx.get("http://localhost:3000/get_customer_data_by_email", params={'email': email})
+        customer_data_response = httpx.get("http://customers:3000/get_customer_data_by_email", params={'email': email})
+        customer_data = customer_data_response.json()
+        customer_name = customer_data.get("first_name")
+        customer_summary = {
+            "customer": customer_name,
+            "orders": "none",
+        }
+        return customer_summary
 
 
-@app.get("/orders")
+""" @app.get("/orders")
 def get_orders(secret: str):
     if not is_valid_secret(secret):
         return "secret required"
@@ -59,10 +65,10 @@ def get_orders(secret: str):
     else:
         #response = httpx.get("http://localhost:3001/get_order_data")
         response = httpx.get("http://orders:3000/get_order_data")
-        return response.json()
+        return response.json() """
 
 
-@app.get("/products")
+""" @app.get("/products")
 def get_products(secret: str):
     if not is_valid_secret(secret):
         return "secret required"
@@ -74,4 +80,4 @@ def get_products(secret: str):
     else:
         #response = httpx.get("http://localhost:3002/get_product_data")
         response = httpx.get("http://products:3000/get_product_data")
-        return response.json()
+        return response.json() """
