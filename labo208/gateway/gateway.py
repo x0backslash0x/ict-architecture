@@ -31,6 +31,10 @@ def update_rate(secret: str):
 def hits_rate_limit(secret: str) -> bool:
     return RATES[secret] > RATE_LIMIT
 
+def retrieve_customer_data(email: str, secret: str) -> dict:
+    #response = httpx.get("http://localhost:3000/get_customer_data_by_email", params={'email': email})
+    response = httpx.get("http://customers:3000/get_customer_data_by_email", params={'email': email})
+    return response.json()
 
 @app.get("/customers")
 def get_customers(email: str, secret: str):
@@ -42,9 +46,7 @@ def get_customers(email: str, secret: str):
     if hits_rate_limit(secret):
         return "rate limit exceeded"
     else:
-        #customer_data_response = httpx.get("http://localhost:3000/get_customer_data_by_email", params={'email': email})
-        customer_data_response = httpx.get("http://customers:3000/get_customer_data_by_email", params={'email': email})
-        customer_data = customer_data_response.json()
+        customer_data = retrieve_customer_data(email, secret)
         customer_name = customer_data.get("first_name")
         customer_summary = {
             "customer": customer_name,
