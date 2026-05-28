@@ -1,0 +1,26 @@
+services:
+  customers:
+    build: customers
+    command: bash -c "sleep 30 && node index.js"
+    ports:
+      - "3000:3000"
+  orders:
+    build: orders
+    command: bash -c "sleep 30 && node index.js"
+    ports:
+      - "3001:3000"
+  products:
+    build: products
+    command: bash -c "sleep 30 && node index.js"
+    ports:
+      - "3002:3000"
+  db:
+    image: mysql
+    # in productie gebruik je secrets!
+    environment:
+      MYSQL_ROOT_PASSWORD: "my-super-secret"
+    # geen volume voor echte persistentie nodig voor deze oefening
+    # wel opstartscripts
+    volumes:
+      - ./opstartscripts/:/docker-entrypoint-initdb.d/
+  # hier kan je voor latere vraag RabbitMQ toevoegen
