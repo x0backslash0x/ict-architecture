@@ -65,7 +65,6 @@ def get_customers(email: str, secret: str):
         orders = []
         for order in orders_data:
             if order.get('customer_id') == customer_data.get('id'):
-                #orders.append(order)
                 order_date = order.get('date')
                 for product in product_data:
                     if product.get('id') == order.get('product_id'):
@@ -77,41 +76,8 @@ def get_customers(email: str, secret: str):
                             "price": order_product_price,
                         })
     
-
-
-    
         customer_summary = {
             "customer": customer_name,
             "orders": orders,
         }
         return customer_summary
-
-
-""" @app.get("/orders")
-def get_orders(secret: str):
-    if not is_valid_secret(secret):
-        return "secret required"
-    else:
-        update_rate(secret)
-
-    if hits_rate_limit(secret):
-        return "rate limit exceeded"
-    else:
-        #response = httpx.get("http://localhost:3001/get_order_data")
-        response = httpx.get("http://orders:3000/get_order_data")
-        return response.json() """
-
-
-""" @app.get("/products")
-def get_products(secret: str):
-    if not is_valid_secret(secret):
-        return "secret required"
-    else:
-        update_rate(secret)
-
-    if hits_rate_limit(secret):
-        return "rate limit exceeded"
-    else:
-        #response = httpx.get("http://localhost:3002/get_product_data")
-        response = httpx.get("http://products:3000/get_product_data")
-        return response.json() """
