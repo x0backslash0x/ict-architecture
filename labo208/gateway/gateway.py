@@ -31,10 +31,12 @@ def update_rate(secret: str):
 def hits_rate_limit(secret: str) -> bool:
     return RATES[secret] > RATE_LIMIT
 
+
 def retrieve_customer_data(email: str, secret: str) -> dict:
     #response = httpx.get("http://localhost:3000/get_customer_data_by_email", params={'email': email})
     response = httpx.get("http://customers:3000/get_customer_data_by_email", params={'email': email})
     return response.json()
+
 
 def retrieve_order_data(secret: str) -> dict:
     #response = httpx.get("http://localhost:3001/get_order_data")
@@ -52,18 +54,17 @@ def retrieve_product_data(secret: str) -> dict:
 def get_customers(email: str, secret: str):
     if not is_valid_secret(secret):
         return "secret required"
-    else:        
+    else:
         update_rate(secret)
 
     if hits_rate_limit(secret):
         return "rate limit exceeded"
     else:
         customer_data = retrieve_customer_data(email, secret)
-        customer_name = customer_data.get("first_name")
-        orders_data = retrieve_order_data(secret)
+        order_data = retrieve_order_data(secret)
         product_data = retrieve_product_data(secret)
         orders = []
-        for order in orders_data:
+        for order in order_data:
             if order.get('customer_id') == customer_data.get('id'):
                 order_date = order.get('date')
                 for product in product_data:
@@ -71,13 +72,12 @@ def get_customers(email: str, secret: str):
                         order_product_name = product.get('description')
                         order_product_price = product.get('price')
                         orders.append({
-                            "date": order_date,
-                            "product": order_product_name,
-                            "price": order_product_price,
-                        })
+                            "date": order_date, "product": order_product_name, "price": order_product_price,})
     
+        customer_name = customer_data.get("first_name")
         customer_summary = {
             "customer": customer_name,
             "orders": orders,
         }
+
         return customer_summary
