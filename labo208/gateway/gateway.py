@@ -74,7 +74,7 @@ def get_customers(email: str, secret: str):
                         orders.append({
                             "date": order_date, "product": order_product_name, "price": order_product_price,})
     
-        customer_name = customer_data.get("first_name")
+        customer_name = customer_data.get("first_name") + " " + customer_data.get("last_name")
         customer_summary = {
             "customer": customer_name,
             "orders": orders,
