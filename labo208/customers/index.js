@@ -20,10 +20,8 @@ app.get("/get_customer_data_by_email", async (req, res) => {
     }
 
     try {
-        const [rows] = await db.execute(
-            "SELECT * FROM Customers WHERE email = ?",
-            [email]
-        );
+        const query = "SELECT * FROM Customers WHERE email = ?"
+        const [rows] = await db.execute(query, [email]);
 
         if (rows.length === 0) {
             return res.status(404).json({ message: "klant bestaat niet" });
@@ -54,9 +52,8 @@ app.post("/add_customer_data", async (req, res) => {
     }
 
     try {
-        const [result] = await db.query(
-            `INSERT INTO Customers VALUES ("${id}", "${first_name}", "${last_name}", "${email}")`
-        );
+        const query = `INSERT INTO Customers VALUES ("${id}", "${first_name}", "${last_name}", "${email}")`
+        const [result] = await db.query(query);
 
         if (result.affectedRows == 0) {
             return res.status(500).send("query failed")
@@ -71,7 +68,7 @@ app.post("/add_customer_data", async (req, res) => {
 
 // custom data bijwerken (op basis van email adres)
 // alle velden zijn vereist
-app.put("/update_customer_data", async (req, res) => {
+app.put("/update_customer_data_by_email", async (req, res) => {
     const email = req.query.email;
     const new_id = req.query.new_id;
     const new_first_name = req.query.new_first_name;
@@ -104,7 +101,7 @@ app.put("/update_customer_data", async (req, res) => {
 });
 
 // customer data verwijderen (op basis van email adres)
-app.delete("/remove_customer_data", async (req, res) => {
+app.delete("/remove_customer_data_by_email", async (req, res) => {
     const email = req.query.email;
 
     if (!email) {
@@ -113,7 +110,8 @@ app.delete("/remove_customer_data", async (req, res) => {
 
     try {
         console.log("Deleting customer with email " + email)
-        const [result] = await db.query(`DELETE FROM Customers WHERE email = "${email}"`);
+        const query = `DELETE FROM Customers WHERE email = "${email}"`
+        const [result] = await db.query(query);
 
         if (result.affectedRows == 0) {
             return res.status(400).json({ error: "query failed"})
