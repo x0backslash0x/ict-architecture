@@ -61,6 +61,31 @@ app.post("/add_order_data", async (req, res) => {
     }
 });
 
+// order data verwijderen (op basis van datum)
+app.delete("/remove_order_data_by_date", async (req, res) => {
+    // %20 vertalen in witruimte voor MySQL compatibiliteit
+    const date = decodeURI(req.query.date);
+
+    if (!date) {
+        return res.status(400).json({ error: "e-mail is vereist" });
+    }
+
+    try {
+        console.log("Deleting order with date " + date)
+        const query = `DELETE FROM Orders WHERE date = "${date}"`
+        const [result] = await db.query(query);
+
+        if (result.affectedRows == 0) {
+            return res.status(400).json({ error: "query failed"})
+        }
+
+        res.status(200).json(result);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "database error"});
+    }
+});
+
 app.listen(3000, () => {
     console.log("Server running on port 3000");
 });
