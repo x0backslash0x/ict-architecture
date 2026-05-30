@@ -69,6 +69,29 @@ app.post("/add_customer_data", async (req, res) => {
     }
 });
 
+// customer data verwijderen (op basis van email adres)
+app.delete("/remove_customer_data", async (req, res) => {
+    const email = req.query.email;
+
+    if (!email) {
+        return res.status(400).json({ error: "e-mail is vereist" });
+    }
+
+    try {
+        console.log("Deleting customer with email " + email)
+        const [result] = await db.query(`DELETE FROM Customers WHERE email = "${email}"`);
+
+        if (result.affectedRows == 0) {
+            return res.status(400).json({ error: "query failed"})
+        }
+
+        res.status(200).json(result);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "database error"});
+    }
+});
+
 app.listen(3000, () => {
     console.log("Server running on port 3000");
 });
