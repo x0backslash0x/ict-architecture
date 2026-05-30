@@ -4,6 +4,14 @@ const db = require("./db");
 const app = express();
 app.use(express.json());
 
+/* interface customer {
+    id: number;
+    first_name: String;
+    last_name: String;
+    email: String;
+} */
+
+// customer data opvragen (op basis van email adres)
 app.get("/get_customer_data_by_email", async (req, res) => {
     const email = req.query.email;
 
@@ -22,6 +30,39 @@ app.get("/get_customer_data_by_email", async (req, res) => {
         }
 
         res.json(rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "database error" });
+    }
+});
+
+// customer data toevoegen
+app.post("/add_customer_data", async (req, res) => {
+    const id = req.query.id;
+    const first_name = req.query.first_name;
+    const last_name = req.query.last_name;
+    const email = req.query.email;
+    console.log (`INSERTING
+        id: ${id}
+        first name: ${first_name}
+        last name: ${last_name}
+        email: ${email}
+        `)
+
+    if (!id || !first_name || !last_name || !email) {
+        return res.status(400).json({ error: "gegevens onvolledig" });
+    }
+
+    try {
+        const [result] = await db.query(
+            `INSERT INTO Customers VALUES ("${id}", "${first_name}", "${last_name}", "${email}")`
+        );
+
+        if (result.affectedRows == 0) {
+            return res.status(500).send("query failed")
+        }
+
+        res.json(result);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "database error" });
