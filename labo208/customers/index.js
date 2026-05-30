@@ -69,6 +69,40 @@ app.post("/add_customer_data", async (req, res) => {
     }
 });
 
+// custom data bijwerken (op basis van email adres)
+// alle velden zijn vereist
+app.put("/update_customer_data", async (req, res) => {
+    const email = req.query.email;
+    const new_id = req.query.new_id;
+    const new_first_name = req.query.new_first_name;
+    const new_last_name = req.query.new_last_name;
+    const new_email = req.query.new_email;
+
+    if (!email || !new_id || !new_first_name || !new_last_name || !new_email) {
+        return res.status(400).json({ error: "gegevens onvolledig" });
+    }
+
+    try {
+        console.log(`updating Customer with email ${email}`);
+        const query = `
+            UPDATE Customers
+            SET id = "${new_id}", first_name = "${new_first_name}", last_name = "${new_last_name}", email = "${new_email}"
+            WHERE email = "${email}"
+        `
+
+        const [result] = await db.query(query);
+
+        if (result.changedRows == 0) {
+            return res.status(500).json({ error: "query failed"});
+        }
+
+        res.status(200).json(result);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "database error"});
+    }
+});
+
 // customer data verwijderen (op basis van email adres)
 app.delete("/remove_customer_data", async (req, res) => {
     const email = req.query.email;
