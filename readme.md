@@ -10,6 +10,7 @@ Repository voor labo oefeningen bij OLOD ICT Architecture
 | customers | put | localhost:3000/update_customer_data_by_email?email=&new_id=&new_first_name=&new_last_name=&new_email= |
 | customers | delete | localhost:3000/remove_customer_data_by_email?email= |
 | orders | get | localhost:3001/get_order_data |
+| orders | post | localhost:3001/add_order_data?product_id=&customer_id= |
 | products | get | localhost:3002/get_product/data |
 | gateway/customers | get | localhost:3003/customers?email=\<email\>&secret=\<secret\> |
 | gateway/orders | get | localhost:3003/orders?secret=\<secret\> |
