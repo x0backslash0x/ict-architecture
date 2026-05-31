@@ -1,6 +1,13 @@
 const express = require("express");
 const db = require("./db");
 
+/* interface product {
+    product_id: number;
+    description: number;
+    price: float;
+} */
+
+// product data ophalen
 const app = express();
 app.use(express.json());
 
