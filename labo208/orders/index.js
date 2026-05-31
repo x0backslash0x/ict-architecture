@@ -25,6 +25,7 @@ function get_datetime() {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
+// order data ophalen
 app.get("/get_order_data", async (req, res) => {
 
     try {
@@ -104,7 +105,7 @@ app.delete("/remove_order_data_by_date", async (req, res) => {
     const date = decodeURI(req.query.date);
 
     if (!date) {
-        return res.status(400).json({ error: "e-mail is vereist" });
+        return res.status(400).json({ error: "datum is vereist" });
     }
 
     try {
