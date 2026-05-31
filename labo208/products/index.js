@@ -51,6 +51,38 @@ app.post("/add_product_data", async (req, res) => {
     }
 });
 
+// product data bijwerken (op basis van id)
+// alle velden zijn vereist
+app.put("/update_product_data_by_id", async (req, res) => {
+    const product_id = req.query.product_id;
+    const new_description = decodeURI(req.query.new_description);
+    const new_price = req.query.new_price;
+
+    if (!product_id || !new_description || !new_price) {
+        return res.status(400).json({ error: "gegevens onvolledig" });
+    }
+
+    try {
+        console.log(`updating product with id ${product_id}`);
+        const query = `
+            UPDATE Products
+            SET description = "${new_description}", price = "${new_price}"
+            WHERE id = "${product_id}"
+        `
+
+        const [result] = await db.query(query);
+
+        if (result.changedRows == 0) {
+            return res.status(500).json({ error: "query failed"});
+        }
+
+        res.status(200).json(result);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "database error"});
+    }
+});
+
 // product data verwijderen (op basis van id)
 app.delete("/remove_product_data_by_id", async (req, res) => {
     // %20 vertalen in witruimte voor MySQL compatibiliteit
