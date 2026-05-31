@@ -2,25 +2,39 @@ Repository voor labo oefeningen bij OLOD ICT Architecture
 
 # Labo 8 (bis jaar)
 ## Endpoints
-## Gebruik
-| Service | method | endpoint |
-| ------- | ------ | -------- |
-| customers | get | localhost:3000/get_customer_data_by_email?email=\<email\> |
-| customers | post | localhost:3000/add_customer_data?id=&first_name=&last_name=&email= |
-| customers | put | localhost:3000/update_customer_data_by_email?email=&new_id=&new_first_name=&new_last_name=&new_email= |
-| customers | delete | localhost:3000/remove_customer_data_by_email?email= |
-| orders | get | localhost:3001/get_order_data |
-| orders | post | localhost:3001/add_order_data?product_id=&customer_id= |
-| orders | put | localhost:3001update_order_data_by_date?date=&new_product_id=&new_customer_id= |
-| orders | delete | localhost:3001/remove_order_data_by_date?date= |
-| products | get | localhost:3002/get_product_data |
-| products | post | localhost:3002/add_product_data?product_id&description=&price= |
-| products | put | localhost:3002/update_product_data_by_id?product_id&new_description=&new_price= |
-| products | delete | localhost:3002/add_product_data_by_id?product_id= |
-| gateway/customers | get | localhost:3003/customers?email=\<email\>&secret=\<secret\> |
-| gateway/orders | get | localhost:3003/orders?secret=\<secret\> |
-| gateway/products | get | localhost:3003/products?secret=\<secret\> |
+**Customers service**
 
+| method | endpoint |
+| ------ | ------ |
+| GET | localhost:3000/get_customer_data_by_email?email= |
+| POST | localhost:3000/add_customer_data?id=&first_name=&last_name=&email= |
+| PUT | localhost:3000/update_customer_data_by_email?email=&new_id=&new_first_name=&new_last_name=&new_email= |
+| DELETE | localhost:3000/remove_customer_data_by_email?email= |
+
+**Orders service**
+| method | endpoint |
+| ------ | ------ |
+| GET | localhost:3001/get_order_data |
+| POST | localhost:3001/add_order_data?product_id=&customer_id= |
+| PUT | localhost:3001update_order_data_by_date?date=&new_product_id=&new_customer_id= |
+| DELETE | localhost:3001/remove_order_data_by_date?date= |
+
+**Products service**
+| method | endpoint |
+| ------ | ------ |
+| GET | localhost:3002/get_product_data |
+| POST | localhost:3002/add_product_data?product_id&description=&price= |
+| PUT | localhost:3002/update_product_data_by_id?product_id&new_description=&new_price= |
+| DELETE | localhost:3002/add_product_data_by_id?product_id= |
+
+**API Gateway**
+| method | endpoint |
+| ------ | ------ |
+| GET | localhost:3003/customers?email=&secret= |
+| GET | localhost:3003/orders?secret= |
+| GET | localhost:3003/products?secret=\ |
+
+## Gebruik
 **omgeving klaar zetten**
 ```bash
 docker compose build
