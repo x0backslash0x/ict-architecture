@@ -14,6 +14,17 @@ function pad2(n) {
   return n.toString().padStart(2, "0");
 }
 
+function get_datetime() {
+    const currentDate = new Date();
+    const year   = currentDate.getFullYear();
+    const month  = pad2(currentDate.getMonth() + 1); // 0-11 -> 1-12
+    const day    = pad2(currentDate.getDate());
+    const hours   = pad2(currentDate.getHours());
+    const minutes = pad2(currentDate.getMinutes());
+    const seconds = pad2(currentDate.getSeconds());
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 app.get("/get_order_data", async (req, res) => {
 
     try {
@@ -32,14 +43,7 @@ app.get("/get_order_data", async (req, res) => {
 app.post("/add_order_data", async (req, res) => {
     const product_id = req.query.product_id;
     const customer_id = req.query.customer_id;
-    const currentDate = new Date();
-    const year   = currentDate.getFullYear();
-    const month  = pad2(currentDate.getMonth() + 1); // 0-11 -> 1-12
-    const day    = pad2(currentDate.getDate());
-    const hours   = pad2(currentDate.getHours());
-    const minutes = pad2(currentDate.getMinutes());
-    const seconds = pad2(currentDate.getSeconds());
-    const datetime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    const datetime = get_datetime();
     console.log ("Inserting order");
 
     if (!product_id || !customer_id) {
