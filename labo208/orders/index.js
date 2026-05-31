@@ -65,6 +65,39 @@ app.post("/add_order_data", async (req, res) => {
     }
 });
 
+// order data bijwerken (op basis van datum)
+// alle velden zijn vereist
+app.put("/update_order_data_by_date", async (req, res) => {
+    const date = decodeURI(req.query.date);
+    const new_product_id = req.query.product_id;
+    const new_customer_id = req.query.customer_id;
+    const new_datetime = get_datetime();
+
+    if (!date || !new_product_id | !new_customer_id) {
+        return res.status(400).json({ error: "gegevens onvolledig" });
+    }
+
+    try {
+        console.log(`updating order with date ${date}`);
+        const query = `
+            UPDATE Orders
+            SET product_id = "${new_product_id}", customer_id = "${new_customer_id}", date = "${new_datetime}"
+            WHERE date = "${date}"
+        `
+
+        const [result] = await db.query(query);
+
+        if (result.changedRows == 0) {
+            return res.status(500).json({ error: "query failed"});
+        }
+
+        res.status(200).json(result);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "database error"});
+    }
+});
+
 // order data verwijderen (op basis van datum)
 app.delete("/remove_order_data_by_date", async (req, res) => {
     // %20 vertalen in witruimte voor MySQL compatibiliteit
