@@ -11,4 +11,11 @@ services:
       timeout: 5s
       retries: 3
       start_period: 40s
+  receiver:
+    container_name: receiver
+    build: helloworld
+    command: python -u receive.py
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
   
