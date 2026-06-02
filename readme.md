@@ -14,24 +14,33 @@ In dit labo worden enkele patronenen voor werken met messages overlopen ahv Rabb
 ![alt text](./info/labo205_tutorial3.png)
 
 ## Gebruik - Hello World
-RabbitMQ server container opzetten
+Elke keer dat de zender (`sender.py`) wordt uitgevoerd stuurt deze een bericht naar de queue van de RabbitMQ server. De ontvanger (`receiver.py`) toont elk nieuw bericht dat op de queue aankomt.
 
+### Lokaal
+RabbitMQ server container opzetten<br/>
 `docker compose up -d rabbitmq`
 
-Python packages installeren
-
+Python packages installeren<br/>
 `pip install -r requirements.txt`
 
-reciever starten (aparte terminal)
-
+reciever starten (aparte terminal)<br/>
 `python3 helloworld/receiver.py`
 
-een bericht versturen
-
+een bericht versturen<br/>
 `python3 helloworld/sender.py`
-
-
-Elke keer dat de zender (`sender.py`) wordt uitgevoerd stuurt deze een bericht naar de queue van de RabbitMQ server. De ontvanger (`receiver.py`) toont elk nieuw bericht dat op de queue aankomt.
 
 **Voorbeeld**<br/>
 ![voorbeeld hello world](./info/labo205_hello-world_local.png)
+
+### Docker service stack
+Docker service stack opzetten<br/>
+`docker compose up -d`
+
+logs receiver service volgen<br/>
+`docker logs -f receiver`
+
+een bericht versturen (aparte terminal)<br/>
+`docker exec sender python send.py`
+
+**Voorbeeld**<br/>
+![voorbeeld hello world](./info/labo205_hello-world_services.png)
