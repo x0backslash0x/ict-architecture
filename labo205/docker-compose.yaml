@@ -1,0 +1,29 @@
+services:
+  rabbitmq:
+    container_name: some-rabbit
+    image: rabbitmq:management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+  receiver:
+    container_name: receiver
+    build: helloworld
+    command: python -u receive.py
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+  sender:
+    container_name: sender
+    build: helloworld
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    command: sleep infinity
+    
+  
