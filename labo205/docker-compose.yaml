@@ -18,4 +18,12 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+  sender:
+    container_name: sender
+    build: helloworld
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    command: sleep infinity
+    
   
