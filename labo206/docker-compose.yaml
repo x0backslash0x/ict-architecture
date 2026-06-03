@@ -1,6 +1,9 @@
 services:
   rabbitmq:
-    container_name: some-rabbit
+    #container_name: some-rabbit
+    hostname: "rabbit-{{.Task.Slot}}"
+    #volumes:
+    #  - "./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie"
     image: rabbitmq:management
     ports:
       - 5672:5672
@@ -15,7 +18,7 @@ services:
       #retries: 3
       #start_period: 40s
   receiver:
-    container_name: receiver
+    #container_name: receiver
     image: x0backslash0x/labo206_helloworld:v1.0
     command: python -u receive.py
     deploy:
@@ -25,7 +28,7 @@ services:
       #rabbitmq:
         #condition: service_healthy
   sender:
-    container_name: sender
+    #container_name: sender
     image: x0backslash0x/labo206_helloworld:v1.0
     deploy:
       replicas: 15
