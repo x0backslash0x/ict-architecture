@@ -2,6 +2,8 @@ services:
   rabbitmq:
     hostname: "rabbit-{{.Task.Slot}}"
     image: rabbitmq:management
+    volumes:
+      - "/mnt/mycephfs/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro"
     ports:
       - 5672:5672
       - 15672:15672
