@@ -5,27 +5,35 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 40s
+    deploy:
+      replicas: 3
+    # niet van toepassing binnen swarm mode
+    #healthcheck:
+      #test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      #interval: 10s
+      #timeout: 5s
+      #retries: 3
+      #start_period: 40s
   receiver:
     container_name: receiver
     image: x0backslash0x/labo206_helloworld:v1.0
     command: python -u receive.py
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
+    deploy:
+      replicas: 1
+    # niet van toepassing binnen swarm mode
+    #depends_on:
+      #rabbitmq:
+        #condition: service_healthy
   sender:
     container_name: sender
     image: x0backslash0x/labo206_helloworld:v1.0
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
+    deploy:
+      replicas: 15
+    # niet van toepassing binnen swarm mode
+    #depends_on:
+      #rabbitmq:
+        #condition: service_healthy
     #command: sleep infinity
     # script wordt nu om de x aantal seconden uitgevoerd
     command: /bin/sh -c "while true; do python send.py; sleep 5; done"
     
-  
