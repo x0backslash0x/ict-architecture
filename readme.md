@@ -44,3 +44,14 @@ een bericht versturen (aparte terminal)<br/>
 
 **Voorbeeld**<br/>
 ![voorbeeld hello world](./info/labo205_hello-world_services.png)
+
+### Docker swarm stack
+erlang cookie aanmaken
+```bash
+echo "<shared-secret>" > erlang.cookie
+chmod 600 erlang.cookie
+chown 999:999 erlang.cookie
+```
+
+Service stack opzetten<br/>
+`docker stack deploy -c docker-compose.yaml rmqstack`

@@ -4,6 +4,8 @@ services:
     image: rabbitmq:management
     volumes:
       - "/mnt/mycephfs/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro"
+      # de erlang cookie moet op alle nodes van de cluster dezelfde zijn
+      - "/mnt/mycephfs/erlang.cookie:/var/lib/rabbitmq/.erlang.cookie:ro"
     ports:
       - 5672:5672
       - 15672:15672
