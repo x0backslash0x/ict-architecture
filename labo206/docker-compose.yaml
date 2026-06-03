@@ -13,14 +13,14 @@ services:
       start_period: 40s
   receiver:
     container_name: receiver
-    build: helloworld
+    image: x0backslash0x/labo206_helloworld:v1.0
     command: python -u receive.py
     depends_on:
       rabbitmq:
         condition: service_healthy
   sender:
     container_name: sender
-    build: helloworld
+    image: x0backslash0x/labo206_helloworld:v1.0
     depends_on:
       rabbitmq:
         condition: service_healthy
